@@ -24,9 +24,7 @@ A simple service that links contacts based on matching email addresses and phone
 }
 
 
-## Testing with Different Tools
-
-### Using Postman
+## Testing with Postman
 1. Set method to POST
 2. Set URL to your API endpoint
 3. Set Headers: `Content-Type: application/json`

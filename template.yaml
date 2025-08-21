@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  identity-reconciliation
+
+  Identity Reconciliation Service for linking contacts based on email and phone matches
+
+Parameters:
+  SupabaseUrl:
+    Type: String
+    Description: Supabase URL
+  SupabaseKey:
+    Type: String
+    Description: Supabase Key
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 512
+    LoggingConfig:
+      LogFormat: JSON
+
+Resources:
+  IdentifyFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: identify-lambda/
+      Handler: app.lambdaHandler
+      Runtime: nodejs22.x
+      Architectures:
+      - x86_64
+      Events:
+        Identify:
+          Type: Api
+          Properties:
+            Path: /identify
+            Method: post
+      Environment:
+        Variables:
+          SUPABASE_URL: !Ref SupabaseUrl
+          SUPABASE_KEY: !Ref SupabaseKey
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: es2020
+        Sourcemap: true
+        EntryPoints:
+        - app.ts
+
+Outputs:
+  IdentifyApi:
+    Description: API Gateway endpoint URL for Prod stage for Identity Reconciliation function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/identify/"
+  IdentifyFunction:
+    Description: Identity Reconciliation Lambda Function ARN
+    Value: !GetAtt IdentifyFunction.Arn
+  IdentifyFunctionIamRole:
+    Description: Implicit IAM Role created for Identity Reconciliation function
+    Value: !GetAtt IdentifyFunctionRole.Arn

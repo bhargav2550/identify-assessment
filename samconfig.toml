@@ -1,0 +1,31 @@
+# More information about the configuration file can be found here:
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-config.html
+version = 0.1
+
+[default.global.parameters]
+stack_name = "identify-reconciliation"
+
+[default.build.parameters]
+cached = true
+parallel = true
+
+[default.validate.parameters]
+lint = true
+
+[default.deploy.parameters]
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = true
+resolve_s3 = true
+parameter_overrides = "SupabaseUrl=\"https://fakgstupqiubozkghpth.supabase.co\" SupabaseKey=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZha2dzdHVwcWl1Ym96a2docHRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU3MzA3OTcsImV4cCI6MjA3MTMwNjc5N30.0IwV5Sn8ppx7U9KO_4AvKZf0fZJ8xCJZcN8lEYhfTKs\" "
+
+[default.package.parameters]
+resolve_s3 = true
+
+[default.sync.parameters]
+watch = true
+
+[default.local_start_api.parameters]
+warm_containers = "EAGER"
+
+[default.local_start_lambda.parameters]
+warm_containers = "EAGER"
